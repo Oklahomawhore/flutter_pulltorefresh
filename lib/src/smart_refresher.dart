@@ -204,6 +204,8 @@ class SmartRefresher extends StatefulWidget {
   /// copy from ScrollView,for setting in SingleChildView,not ScrollView
   final DragStartBehavior dragStartBehavior;
 
+  final bool injectsFromNestedScrollView;
+
   /// creates a widget help attach the refresh and load more function
   /// controller must not be null,
   /// child is your refresh content,Note that there's a big difference between children inheriting from ScrollView or not.
@@ -232,7 +234,7 @@ class SmartRefresher extends StatefulWidget {
       this.reverse,
       this.physics,
       this.scrollDirection,
-      this.scrollController})
+      this.scrollController, this.injectsFromNestedScrollView=false})
       : assert(controller != null),
         builder = null,
         super(key: key);
@@ -254,7 +256,7 @@ class SmartRefresher extends StatefulWidget {
       this.onRefresh,
       this.onLoading,
       this.onTwoLevel,
-      this.onOffsetChange})
+      this.onOffsetChange, this.injectsFromNestedScrollView=false})
       : assert(controller != null),
         header = null,
         footer = null,
@@ -306,13 +308,13 @@ class SmartRefresherState extends State<SmartRefresher> {
         //avoid system inject padding when own indicator top or bottom
         Widget sliver = child.buildChildLayout(context);
         if (child.padding != null) {
-          slivers = [SliverOverlapInjector(
+          slivers = [if (widget.injectsFromNestedScrollView) SliverOverlapInjector(
             // This is the flip side of the SliverOverlapAbsorber
             // above.
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ), SliverPadding(sliver: sliver, padding: child.padding)];
         } else {
-          slivers = [SliverOverlapInjector(
+          slivers = [if (widget.injectsFromNestedScrollView) SliverOverlapInjector(
             // This is the flip side of the SliverOverlapAbsorber
             // above.
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
