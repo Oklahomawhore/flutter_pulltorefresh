@@ -306,9 +306,17 @@ class SmartRefresherState extends State<SmartRefresher> {
         //avoid system inject padding when own indicator top or bottom
         Widget sliver = child.buildChildLayout(context);
         if (child.padding != null) {
-          slivers = [SliverPadding(sliver: sliver, padding: child.padding)];
+          slivers = [SliverOverlapInjector(
+            // This is the flip side of the SliverOverlapAbsorber
+            // above.
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ), SliverPadding(sliver: sliver, padding: child.padding)];
         } else {
-          slivers = [sliver];
+          slivers = [SliverOverlapInjector(
+            // This is the flip side of the SliverOverlapAbsorber
+            // above.
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ), sliver];
         }
       } else {
         slivers = List.from(child.buildSlivers(context), growable: true);
