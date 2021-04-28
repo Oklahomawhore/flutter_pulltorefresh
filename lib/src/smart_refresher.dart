@@ -331,12 +331,8 @@ class SmartRefresherState extends State<SmartRefresher> {
       ];
     }
     if (widget.enablePullDown || widget.enableTwoLevel) {
-      int insertIndex = 0;
-      if (widget.injectsFromNestedScrollView) {
-        insertIndex = 1;
-      }
       slivers?.insert(
-          insertIndex,
+          0,
           widget.header ??
               (configuration?.headerBuilder != null
                   ? configuration?.headerBuilder()
