@@ -12,9 +12,6 @@
 ## 介绍
 一个提供上拉加载和下拉刷新的组件,同时支持Android和Ios<br>
 
-[下载Demo(Android)](demo.apk):
-
-![二维码](arts/qr_code.png)
 
 
 ## 特性
@@ -36,9 +33,8 @@
 
    dependencies:
 
-    pull_to_refresh: ^1.6.5
-    # null-safety version
-    # pull_to_refresh: 1.6.4-nullsafety.0 
+    pull_to_refresh: ^2.0.0
+
 
 ```
 
